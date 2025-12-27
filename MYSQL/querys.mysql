@@ -1,0 +1,39 @@
+1.Escribe una consulta para obtener las ventas totales por mes y 
+categoría de producto. 
+
+SELECT 
+    MONTHNAME(v.fecha) AS mes,
+    p.categoria,
+    SUM(v.cantidad * p.precio) AS total_ventas
+FROM ventas v
+JOIN productos p ON v.producto_id = p.id
+GROUP BY mes, p.categoria
+ORDER BY mes;
+
+2.Obtén el TOP 5 de clientes con mayores compras en el último 
+año. 
+
+SELECT 
+    c.nombre,
+    SUM(v.cantidad * p.precio) AS total_compras
+FROM ventas v
+JOIN clientes c ON v.cliente_id = c.id
+JOIN productos p ON v.producto_id = p.id
+WHERE v.fecha >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+GROUP BY c.nombre
+ORDER BY total_compras DESC
+LIMIT 5;
+
+3.Crea una vista que muestre: cliente, ciudad, total de compras, 
+última fecha de compra. 
+
+CREATE VIEW vista_resumen_clientes AS
+SELECT 
+    c.nombre,
+    c.ciudad,
+    SUM(v.cantidad * p.precio) AS total_compras,
+    MAX(v.fecha) AS ultima_compra
+FROM clientes c
+LEFT JOIN ventas v ON c.id = v.cliente_id
+LEFT JOIN productos p ON v.producto_id = p.id
+GROUP BY c.id;

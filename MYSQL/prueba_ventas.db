@@ -1,0 +1,56 @@
+-- creacion de base de datos
+
+CREATE DATABASE prueba_ventas;
+USE prueba_ventas;
+
+-- Tabla clientes
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    ciudad VARCHAR(50),
+    fecha_registro DATE
+);
+
+-- Tabla productos
+CREATE TABLE productos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    categoria VARCHAR(50),
+    precio DECIMAL(10,2)
+);
+
+-- Tabla ventas
+CREATE TABLE ventas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT,
+    producto_id INT,
+    fecha DATE,
+    cantidad INT,   
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
+);
+
+-- generacion de insert
+
+INSERT INTO clientes (nombre, ciudad, fecha_registro) VALUES
+('Juan Pérez','Bogotá','2023-01-15'),
+('María López','Medellín','2023-02-20'),
+('Carlos Gómez','Cali','2023-03-05'),
+('Ana Torres','Bogotá','2023-03-25'),
+('Luis Ramírez','Barranquilla','2023-04-10');
+
+INSERT INTO productos (categoria, precio) VALUES
+('Electrónica',500),
+('Electrónica',1500),
+('Hogar',200),
+('Hogar2',750),
+('Ropa',100);
+
+INSERT INTO ventas (cliente_id, producto_id, fecha, cantidad) VALUES
+(1,1,'2025-05-01',2),
+(1,3,'2025-05-15',1),
+(2,2,'2025-06-05',1),
+(3,3,'2025-06-20',3),
+(3,1,'2025-06-25',1),
+(4,5,'2025-07-10',4),
+(5,2,'2025-07-15',2),
+(5,1,'2025-07-20',1);
